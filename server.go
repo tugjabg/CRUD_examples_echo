@@ -5,13 +5,6 @@ import (
 	"service"
 )
 
-package main
-
-import (
-"github.com/labstack/echo"
-"service"
-)
-
 func main() {
 	server := echo.New()
 	server.POST("/users", service.CreateUser)

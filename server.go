@@ -1,67 +1,57 @@
 package main
 
 import (
-	"github.com/labstack/echo"
-	"service"
+	"CRUD_examples_echo/service"
+	_ "github.com/dgrijalva/jwt-go"
+	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	server := echo.New()
-	server.POST("/users", service.CreateUser)
-	server.GET("/users/:id", service.GetUser)
-	server.PUT("/users/:id", service.UpdateUser)
-	server.DELETE("/users/:id", service.DeleteUser)
-
-	server.Logger.Fatal(server.Start(":1323"))
+	server.POST("/student", service.CreateStudent)
+	server.GET("/student/:id", service.GetStudent)
+	server.GET("/students", service.GetStudents)
+	server.PUT("/student/:id", service.UpdateStudent)
+	server.DELETE("/student/:id", service.DeleteStudent)
+	//server.POST("/login", genToken, middleware.BasicAuth(basicAuth))
+	server.Logger.Fatal(server.Start(":2609"))
 }
 
-//package service
-//
-//import (
-//"github.com/labstack/echo"
-//"net/http"
-//"strconv"
-//)
 //
 //type user struct {
-//	ID int `json:"id"`
-//	Name string `json:"name"`
+//	name string `json:"name" form:"name" xml:"name" query:"name"`
+//	pass string `json:"pass" form:"pass" xml:"pass" query:"pass"`
 //}
 //
-//var (
-//	users = map[int]*user{}
-//	seq   = 1
-//)
+//type loginResponse struct {
+//	Token string `json:"token"`
+//}
 //
-//func CreateUser(c echo.Context) error {
-//	u := &user{
-//		ID: seq,
+//func (u user) getName() string {
+//	return u.name
+//}
+//
+//func (u *user) setName(name string) {
+//	u.name = name
+//}
+//
+//func (u user) getPass() string {
+//	return u.pass
+//}
+//
+//func (u *user) setPass(pass string) {
+//	u.pass = pass
+//}
+//
+//func basicAuth(name string, pass string, c echo.Context) (bool, error) {
+//	if (name != "admin") || (pass != "123456") {
+//		return false, nil
 //	}
-//	if err := c.Bind(u); err != nil {
-//		return err
-//	}
-//	users[u.ID] = u
-//	seq++
-//	return c.JSON(http.StatusCreated, u)
+//	return true, nil
 //}
 //
-//func GetUser(c echo.Context) error {
-//	id, _ := strconv.Atoi(c.Param("id"))
-//	return c.JSON(http.StatusOK, users[id])
-//}
-//
-//func UpdateUser(c echo.Context) error {
-//	u := new(user)
-//	if err := c.Bind(u); err != nil {
-//		return err
-//	}
-//	id, _ := strconv.Atoi(c.Param("id"))
-//	users[id].Name = u.Name
-//	return c.JSON(http.StatusOK, users[id])
-//}
-//
-//func DeleteUser(c echo.Context) error {
-//	id, _ := strconv.Atoi(c.Param("id"))
-//	delete(users, id)
-//	return c.NoContent(http.StatusNoContent)
+//func genToken(c echo.Context) error {
+//	return c.JSON(http.StatusOK, &loginResponse{
+//		Token: "123456",
+//	})
 //}
